@@ -1,0 +1,31 @@
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        
+        l = ListNode() # the new list that we want to return
+        t = l # taking a temporary copy of the new list as we need to move to next pointers to store data.
+
+        # get the minimum front value of all linked lists in the input list.
+        def get_min():
+            min_val, min_indx = float('inf'), -1
+            for i in range(len(lists)):
+                if lists[i] != None and lists[i].val < min_val:
+                    min_val = lists[i].val
+                    min_indx = i
+            if min_indx != -1:
+                # when a min value is found, 
+                # increment the linked list 
+                # so that we don't consider the same min value the next time 
+                # and also the next value of linked list comes at the front
+                lists[min_indx] = lists[min_indx].next
+            return min_val
+        
+        while(1):
+            x = get_min() # get the mim value to add to new list
+            if (x == float('inf')): 
+                # if min value is not obtained that means all the linked lists are traversed so break
+                break
+            c = ListNode(val=x)
+            t.next = c
+            t = t.next
+        return l.next # as we made l to be just a head for our actual linked list
+        
